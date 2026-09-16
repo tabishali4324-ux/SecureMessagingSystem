@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    bottom: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background: #F3E4C9;
+    color: #333;
+}
+
+.auth-container{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.auth-box{
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    padding: 28px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.auth-box h1 {
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 28px;
+    color: #BABF94;
+}
+
+.subtitle{
+    text-align: center;
+    color:  #777;
+    margin-bottom: 28px;
+    font-size: 14px;
+}
+
+.input-group{
+    margin-bottom: 18px;
+}
+
+.input-group label{
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-group input{
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #BABF94;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    background: #fff;
+}
+
+.input-group input:focus {
+    border-color: #BABF94;
+    box-shadow: 0 0 0 2px rgba(186, 191, 148, 0.25);
+}
+
+button{
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 6px;
+    background: #BABF94;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover{
+    background: #aeb477;
+}
+
+.bottom-text{
+    text-align: center;
+    margin-top:  22px;
+    font-size: 14px;
+    color: #777;
+}
+
+.bottom-text a{
+    color: #aeb477;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bottom-text a:hover{
+    text-decoration: underline;
+}
