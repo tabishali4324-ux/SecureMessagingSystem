@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title> Inbox</title>
+        <link rel="stylesheet" href="{%% static 'accounts/style.css'}">
+
+    </head>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1>
+                Inbox
+            </h1>
+            {% for m in inbox_messages %}
+            <p><stromg>{{m.sender}}</stromg>({{ m.timestamp }}): {{}m.text}</p>
+            {% empty %}
+            <p class="subtiitle">No messages yet</p>
+            {% endfor %}
+            <p class="bottom-text"><a href="{% url 'user_list' %}"> Back to users</a></p>
+        </div>
+    </div>
+</html>

@@ -126,3 +126,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+MESSAGE_VAULT_PASSWORD = "MessageVault@2026"

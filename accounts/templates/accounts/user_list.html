@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Users</title>
+        <link rel="stylesheet" href="{% static 'accounts/style.css'%}">
+    </head>
+<body>
+    <div class="auth-continer">
+        <div class="auth-box">
+            <h1>users</h1>
+            {% for u in users %}
+            <p><a href="{% url 'send_message' u.username %}"></a></p>
+            {% empty %}
+            <p class="subtitle">No other users yet</p>
+            {% end for %}
+            <p class="botton-text"><a href="{% url 'send_message' u.username %}">{{username}}</a></p>
+
+            {% endfor %}
+            <p class="bottom-text"><a href="{% url 'inbox %}">Go to Inbox</a></p>
+        </div>
+    </div>
+</body>
+</html>
