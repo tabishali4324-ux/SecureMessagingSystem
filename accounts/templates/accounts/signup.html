@@ -5,39 +5,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <title>Create Account</title>
     <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
 </head>
 <body>
     <div class="auth-container">
         <div class="auth-box">
-            <h1>Create Account</h1>
-            <p class="subtitle">Create your account to get started</p>
-            <form method="post">
-                {% csrf_token %}
+            {% if not submitted_username %}
+                <h1>Create Account</h1>
+                <p class="subtitle">Create your account to get started</p>
+                <form method="post">
+                    {% csrf_token %}
 
-                <div class="input-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username">
-                </div>
-        
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password">
-                </div>
-        
-                <div class="input-group">
-                    <label for="age">Age</label>
-                    <input type="number" id="age" name="age" placeholder="Enter your age">
-                </div>
-        
-                <button type="submit">Create Account</button>
-            </form>
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your username">
+                    </div>
+            
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password">
+                    </div>
+            
+                    <div class="input-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" placeholder="Enter your age">
+                    </div>
+            
+                    <button type="submit">Create Account</button>
+                </form>
 
-            <p class="bottom-text">
-                Already have an account?
-                <a href="/login/">Login</a>
-            </p>
+                <p class="bottom-text">
+                    Already have an account?
+                    <a href="{% url 'login'%}">Login</a>
+                </p>
+            {% else%}
+                <h1>Request Sent </h1>
+                <p id="status-text" class="subtitle">Waiting for admin approval</p>
+
+                <script>
+                    const username = "{{ submitted_username}}";
+                    const statusEl = document.getElementById("status-text");
+
+                    const poll = setInterval(async () => {
+                        const res = await fetch(`/register/status/${username}/`);
+                        const data = await res.json();
+
+                        if (data.status === "APPROVED") {
+                            statusEl.textContent = "Approved! You can login now.";
+                            clearInterval(poll);
+                        } else if (data.status === "DENIED") {
+                            statusEl.textContent = "Sorry, your request was denied.";
+                            clearInterval(poll);
+                        }
+                    }, 2000);
+
+                    
+                </script>
+            {% endif %}
         </div>
     </div>
 </body>

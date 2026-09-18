@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin — Verify Requests</title>
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+
+
+</head>
+
+<body>
+     <div class="auth-container">
+        <div class="auth-box">
+            <h1> Pending Requests</h1>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            {% if pending %}
+                {% for req in pending %}
+                   <div class ="input-group">
+                    <p>{{ req.username}} - age {{ req.age }}</p>
+                    <form method="post" style="display:inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{req.username}}">
+                        <button type="submit" name="action" value="allow">Allow</button>
+                        <button type="submit" name="action" value="deny">Deny</button>
+
+                    </form>
+                   </div>
+                {% endfor%}
+            {% else %}
+               <p class="subtitle">No pending requests</p>
+            {% endif %}
+        </div>
+     </div>
+
+</body>
