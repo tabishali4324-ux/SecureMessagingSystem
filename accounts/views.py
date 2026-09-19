@@ -178,4 +178,19 @@ def admin_decrypt_messages(request)
             ) | Messages.objects.filter(
                 sender__username=user2, receiver__username= user1
             )
-            
+            decrypted = []
+            try:
+                fro m in convo.order_by("timestamp"):
+                text = crypto.decrypt_message(m.encrypted_text, password)
+                decrypted.append({
+                    "sender": m.sender.username,
+                    "receiver": m.receiver.username,
+                    "text": text,
+                    "timestamp": m.timestamp,
+                })
+            except Exception: 
+                error = "Unable to descrypt messages"
+                decrypted = None
+    return render(request, "accounts/admin_decrypt.html", {
+        "user1": user1, "user2": user2, "decrypted": decrypted, "error": error,
+    })
