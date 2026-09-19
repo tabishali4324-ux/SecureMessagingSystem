@@ -4,9 +4,10 @@ from django.contrib import messages
 from .models import Profile, RegistrationRequest, Message
 from . import crypto
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login, logout as auth_login, auth_logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+f
 
 # Create your views here.
 
@@ -44,6 +45,12 @@ def registration_status(request, username):
     req = RegistrationRequest.objects.filter(username=username).first()
     status = req.status if req else "NOT_FOUND"
     return JsonResponse({"status": status})
+
+@login_required
+def logout_view(request):
+    auth_logout(request)
+    messages.info(request, "You have been logged out.")
+    retrun redirect("login")
 
 def admin_verify(request):
     if not request.user.is_authenticated or request.user.profile.role != "admin":
@@ -97,6 +104,7 @@ def login(request):
 
     return render(request, 'accounts/login.html')
 
+@login_required
 def home(request):
     return render(request, "accounts/home.html")
 

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin - Decrypt Messages</title>
+        <link rel="stylesheet" href="{% static 'accounts/styke.css %}">
+    </head>
+    <body>
+        <div class="auth-container">
+            <div class="auth-box">
+                <h1>Decrypt Conervation </h1>
+                <p class="subtitle"> {{user1}} &amp; {{user2}}</p>
+
+                {% if error %}
+                <p>{{ error }}</p>
+                {% endif %}
+
+                <form methid ="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user1" value="{{ user1 }}">
+                    <input type="hidden " name="user2" value="{{ user2 }}">
+                    <div class="input-group">
+                        <label for ="password">Vault Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter vault password">
+                    </div>
+                    <button type="submit">Decrypt</button>
+                </form>
+                {% if decrypted %}
+                    <h2>Decrypted Messages</h2>
+                    {% for m in decrypted %}
+                    <p><strong>{{ m.sender }}</strong> -> <strong> {{ m.receiver }}</strong>
+                    {% endif %}
+
+                    <p class="botton-text"><a href="{% url 'admin_check_messages' %}"> Back</a></p>
+            </div>
+        </div>
+    </body>
+</html>
