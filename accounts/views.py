@@ -134,3 +134,48 @@ def inbox(request):
 
 
     return render(request, "accounts/inbox.html", {"inbox_messages":inbox_messages})
+
+@login_required
+def admin_check_messages(request):
+    if request.user.profile.role != "admin":
+        messages.error(request, "Access denied.")
+        return redirect("login")
+
+    users = User.objects.exclude(profile__role="admin").order_by("username")
+
+    conversation = None 
+    user1 = request.GET.get("user1")
+    user2 = request.GET.get("user2")
+
+    if user1 and user2 and user1 != user2:
+        conversation = Messages.objects.filter(
+            sender__username=user1, receiver__username=user2
+
+        ) | Message.objects.filter(
+            sender__username=user2, receiver__username=user1
+        )
+        conversation = conversation.order_by("timestamp")
+
+    return render(request, "accounts/admin_check_messages.html", {
+        "users": users, "conservation": conservation, "user1": user1, "user2":user2,
+
+    }) 
+
+
+@login_required
+def admin_decrypt_messages(request)
+    if request.user.profile.role != "admin":
+        messages.error(request, "Access denied")
+        retrun redirect("login")
+
+    user1 = request.method == "POST":
+        password = request.POST.get("password")
+        if password != settings.MESSAGES_VAULT_PASSWORD:
+            error = "Incorrect decryption password"
+        else:
+            convo = Message.onjects.filter(
+                sender__username=user1, receiver__username= user2
+            ) | Messages.objects.filter(
+                sender__username=user2, receiver__username= user1
+            )
+            
