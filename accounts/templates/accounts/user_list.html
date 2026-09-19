@@ -14,11 +14,8 @@
             <p><a href="{% url 'send_message' u.username %}"></a></p>
             {% empty %}
             <p class="subtitle">No other users yet</p>
-            {% end for %}
-            <p class="botton-text"><a href="{% url 'send_message' u.username %}">{{username}}</a></p>
-
             {% endfor %}
-            <p class="bottom-text"><a href="{% url 'inbox %}">Go to Inbox</a></p>
+            <p class="bottom-text"><a href="{% url 'inbox' %}">Go to Inbox</a></p>
         </div>
     </div>
 </body>

@@ -4,10 +4,11 @@ from django.contrib import messages
 from .models import Profile, RegistrationRequest, Message
 from . import crypto
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+
 
 # Create your views here.
 
@@ -45,6 +46,12 @@ def registration_status(request, username):
     req = RegistrationRequest.objects.filter(username=username).first()
     status = req.status if req else "NOT_FOUND"
     return JsonResponse({"status": status})
+
+@login_required
+def logout_view(request):
+    auth_logout(request)
+    messages.info(request, "You have been logged out.")
+    return redirect("login")
 
 def admin_verify(request):
     if not request.user.is_authenticated or request.user.profile.role != "admin":
@@ -98,6 +105,7 @@ def login(request):
 
     return render(request, 'accounts/login.html')
 
+@login_required
 def home(request):
     return render(request, "accounts/home.html")
 
@@ -136,7 +144,71 @@ def inbox(request):
 
     return render(request, "accounts/inbox.html", {"inbox_messages":inbox_messages})
 
-    return render(request, 'accounts/login.html')
+@login_required
+def admin_check_messages(request):
+    if request.user.profile.role != "admin":
+        messages.error(request, "Access denied.")
+        return redirect("login")
+
+    users = User.objects.exclude(profile__role="admin").order_by("username")
+
+    conversation = None 
+    user1 = request.GET.get("user1")
+    user2 = request.GET.get("user2")
+
+    if user1 and user2 and user1 != user2:
+        conversation = Message.objects.filter(
+            sender__username=user1, receiver__username=user2
+
+        ) | Message.objects.filter(
+            sender__username=user2, receiver__username=user1
+        )
+        conversation = conversation.order_by("timestamp")
+
+    return render(request, "accounts/admin_check_messages.html", {
+        "users": users, "conversation": conversation, "user1": user1, "user2":user2,
+
+    }) 
+
+
+@login_required
+def admin_decrypt_messages(request):
+    if request.user.profile.role != "admin":
+        messages.error(request, "Access denied.")
+        return redirect("login")
+
+    user1 = request.GET.get("user1") or request.POST.get("user1")
+    user2 = request.GET.get("user2") or request.POST.get("user2")
+    decrypted = None
+    error = None
+
+    if request.method == "POST":
+        password = request.POST.get("password")
+        if password != settings.MESSAGE_VAULT_PASSWORD:
+            error = "Incorrect decryption password."
+        else:
+            convo = Message.objects.filter(
+                sender__username=user1, receiver__username=user2
+            ) | Message.objects.filter(
+                sender__username=user2, receiver__username=user1
+            )
+            decrypted = []
+            try:
+                for m in convo.order_by("timestamp"):
+                    text = crypto.decrypt_message(m.encrypted_text, password)
+                    decrypted.append({
+                        "sender": m.sender.username,
+                        "receiver": m.receiver.username,
+                        "text": text,
+                        "timestamp": m.timestamp,
+                    })
+            except Exception:
+                error = "Unable to decrypt messages."
+                decrypted = None
+
+    return render(request, "accounts/admin_decrypt.html", {
+        "user1": user1, "user2": user2, "decrypted": decrypted, "error": error,
+    })
 
 def dashboard(request):
     return render(request, 'accounts/dashboard.html')

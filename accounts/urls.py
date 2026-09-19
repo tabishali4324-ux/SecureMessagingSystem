@@ -12,4 +12,7 @@ urlpatterns = [
     path("users/", views.user_list, name="user_list"),
     path("send/<str:username>/", views.send_messages, name='send_message'),
     path("inbox/",views.inbox, name="inbox"),
+    path("admin/messages/", views.admin_check_messages,  name="admin_check_messages"),
+    path("admin/decrypt/", views.admin_decrypt_messages, name="admin_decrypt_messages"),
+    path("logout/", views.logout_view, name="logout"),
 ]

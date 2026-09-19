@@ -30,5 +30,5 @@ class Message(models.Model):
     class Meta:
         ordering = ["timestamp"]
 
-    def  __str__(self):
+    def __str__(self):
         return f"{self.sender.username} -> {self.receiver.username} @ {self.timestamp}"

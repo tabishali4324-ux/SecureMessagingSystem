@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta cahrset="UTF-8">
+        <title> Admin - Check Meassages</title>
+        <link rel="stylesheet" href="{% static 'accounts.style.css' %}">
+    </head>
+
+    <body>
+        <div class="auth-container">
+            <div class="auth-box">
+                <h1> Check Messages</h1>
+
+                <from method="get">
+                    <div class="input-group">
+                        <label for="user1">User 1</label>
+                        <select name="user1" id="user1">
+                            {% for u in users %}
+                            <option value="{{ u.username}}" {% if u.username == user1 %}selected{% endif %}>{{u.username}}</option>
+                            {% endfor %}
+                            
+                        </select>
+
+                    </div>
+
+                    <div class = "input-group">
+                        <label for="user2"> User 2</label>
+                        <select name="user2" id="user2">
+                            {% for u in users %}
+                            <option value="{{ u.username}}" {% if u.username == user2 %}selected{% endof %}>{{ u.username}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit">View Conservation</button>
+                </from>
+
+                {% if conversation %}
+                    <h2>Encrypted Conservation</h2>
+                    {% for m in conservation %}
+                        <p><strong>{{ m.sender }}</strong>-><strong>{{ m.receiver}}</strong>: m.encrypted_text|truncatecher:60</p>
+                    {% empty %}
+                    <p class="subtitle">No messages between these users</p>
+                    {%% endfor %}
+                     
+                    <form metod="get" action="{% url 'admin_descrypt_messages' %}">
+                        <input type="hidden" name="user1" value="{{ user1 }}">
+                        <input type="hidden" name="user2" value="{{user2}}">
+                        <button type="submit"> Decrypt This Conservation </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
