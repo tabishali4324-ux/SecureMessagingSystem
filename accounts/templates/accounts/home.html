@@ -14,7 +14,7 @@
                 <h1>Welcome, {{ request.user.username }}<h1>
                 <p class="subtittle">You are sucessfully logged in.</p>
 
-                <p class="bottom-text"><a href="{% url 'user_list'}">Messsage Users</a></p>
+                <p class="bottom-text"><a href="{% url 'user_list' %}">Messsage Users</a></p>
                 <p class="bottom-text"><a href="{% url 'inbox' %}">Inbox</a></p>
                 {% if request.user.profile.role == "admin" %}
                     <p class="bottom-text"><a href="{% url 'admin_verify' %}">Verify Registratiions</a></p>

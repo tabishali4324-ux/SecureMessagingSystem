@@ -32,6 +32,3 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.sender.username} -> {self.receiver.username} @ {self.timestamp}"
-
-
-    

@@ -4,10 +4,11 @@ from django.contrib import messages
 from .models import Profile, RegistrationRequest, Message
 from . import crypto
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login, logout as auth_login, auth_logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-f
+from django.conf import settings
+
 
 # Create your views here.
 
@@ -50,7 +51,7 @@ def registration_status(request, username):
 def logout_view(request):
     auth_logout(request)
     messages.info(request, "You have been logged out.")
-    retrun redirect("login")
+    return redirect("login")
 
 def admin_verify(request):
     if not request.user.is_authenticated or request.user.profile.role != "admin":
@@ -116,11 +117,11 @@ def user_list(request):
 @login_required
 def send_messages(request, username):
     receiver = User.objects.filter(username=username).first()
-    if recevier is None:
+    if receiver is None:
         messages.error(request, "user not found")
         return redirect("user_list")
 
-    if request.method == "POSt":
+    if request.method == "POST":
         text = request.POST.get("message")
         if text:
             encrypted = crypto.encrypt_message(text, settings.MESSAGE_VAULT_PASSWORD)
@@ -128,7 +129,7 @@ def send_messages(request, username):
             messages.success(request, "Message sent.")
         return redirect("send_message", username=username)
 
-    return render(request,"accounts/send_messages.html", {"receiver", receiver})
+    return render(request,"accounts/send_messages.html", {"receiver": receiver})
 
 @login_required
 def inbox(request):
@@ -156,7 +157,7 @@ def admin_check_messages(request):
     user2 = request.GET.get("user2")
 
     if user1 and user2 and user1 != user2:
-        conversation = Messages.objects.filter(
+        conversation = Message.objects.filter(
             sender__username=user1, receiver__username=user2
 
         ) | Message.objects.filter(
@@ -165,40 +166,49 @@ def admin_check_messages(request):
         conversation = conversation.order_by("timestamp")
 
     return render(request, "accounts/admin_check_messages.html", {
-        "users": users, "conservation": conservation, "user1": user1, "user2":user2,
+        "users": users, "conversation": conversation, "user1": user1, "user2":user2,
 
     }) 
 
 
 @login_required
-def admin_decrypt_messages(request)
+def admin_decrypt_messages(request):
     if request.user.profile.role != "admin":
-        messages.error(request, "Access denied")
-        retrun redirect("login")
+        messages.error(request, "Access denied.")
+        return redirect("login")
 
-    user1 = request.method == "POST":
+    user1 = request.GET.get("user1") or request.POST.get("user1")
+    user2 = request.GET.get("user2") or request.POST.get("user2")
+    decrypted = None
+    error = None
+
+    if request.method == "POST":
         password = request.POST.get("password")
-        if password != settings.MESSAGES_VAULT_PASSWORD:
-            error = "Incorrect decryption password"
+        if password != settings.MESSAGE_VAULT_PASSWORD:
+            error = "Incorrect decryption password."
         else:
-            convo = Message.onjects.filter(
-                sender__username=user1, receiver__username= user2
-            ) | Messages.objects.filter(
-                sender__username=user2, receiver__username= user1
+            convo = Message.objects.filter(
+                sender__username=user1, receiver__username=user2
+            ) | Message.objects.filter(
+                sender__username=user2, receiver__username=user1
             )
             decrypted = []
             try:
-                fro m in convo.order_by("timestamp"):
-                text = crypto.decrypt_message(m.encrypted_text, password)
-                decrypted.append({
-                    "sender": m.sender.username,
-                    "receiver": m.receiver.username,
-                    "text": text,
-                    "timestamp": m.timestamp,
-                })
-            except Exception: 
-                error = "Unable to descrypt messages"
+                for m in convo.order_by("timestamp"):
+                    text = crypto.decrypt_message(m.encrypted_text, password)
+                    decrypted.append({
+                        "sender": m.sender.username,
+                        "receiver": m.receiver.username,
+                        "text": text,
+                        "timestamp": m.timestamp,
+                    })
+            except Exception:
+                error = "Unable to decrypt messages."
                 decrypted = None
+
     return render(request, "accounts/admin_decrypt.html", {
         "user1": user1, "user2": user2, "decrypted": decrypted, "error": error,
     })
+
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')

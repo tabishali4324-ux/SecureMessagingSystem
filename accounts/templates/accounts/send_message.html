@@ -1,34 +1,32 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title> End Message</title>
-        <link rel="stylesheet" href="{% static 'accounts/style.css'}">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Message</title>
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1>Message {{ receiver.username }}</h1>
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
 
-    </head>
-    <bodu>
-        <div class="auth-continer">
-            <div class="auth-box">
-                <h1> Message {{receiver.username}}</h1>
-                {% if messages %}
-                    {% for message in messages %}
-                        <p>{{message}}</p>
-                    {% endfor %}
-                {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                <button type="submit">Send</button>
+            </form>
 
-                <form method="post">
-                    {% csrf_toekn %}
-                    <div class="input-group">
-                        <label for="message">Message</label>
-                        <textxrea id="message" name="message" rows="4"></textxrea>
-
-                    </div>
-                    <button type="submit">Send</button>
-
-                </form>
-                <p class="bottom-text"><a href="{% url 'user_list %}">Back to users</p>
-            </div>
+            <p class="bottom-text"><a href="{% url 'user_list' %}">Back to users</a></p>
         </div>
-    </bodu>
+    </div>
+</body>
 </html>
