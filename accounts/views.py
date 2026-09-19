@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 # Create your views here.
 
@@ -108,11 +109,11 @@ def user_list(request):
 @login_required
 def send_messages(request, username):
     receiver = User.objects.filter(username=username).first()
-    if recevier is None:
+    if receiver is None:
         messages.error(request, "user not found")
         return redirect("user_list")
 
-    if request.method == "POSt":
+    if request.method == "POST":
         text = request.POST.get("message")
         if text:
             encrypted = crypto.encrypt_message(text, settings.MESSAGE_VAULT_PASSWORD)
@@ -120,7 +121,7 @@ def send_messages(request, username):
             messages.success(request, "Message sent.")
         return redirect("send_message", username=username)
 
-    return render(request,"accounts/send_messages.html", {"receiver", receiver})
+    return render(request,"accounts/send_messages.html", {"receiver": receiver})
 
 @login_required
 def inbox(request):
@@ -134,3 +135,8 @@ def inbox(request):
 
 
     return render(request, "accounts/inbox.html", {"inbox_messages":inbox_messages})
+
+    return render(request, 'accounts/login.html')
+
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')

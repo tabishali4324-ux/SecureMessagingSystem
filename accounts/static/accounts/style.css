@@ -1,6 +1,6 @@
 *{
     margin: 0;
-    bottom: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -97,4 +97,61 @@ button:hover{
 
 .bottom-text a:hover{
     text-decoration: underline;
+}
+
+.dashboard{
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.dashboard-header{
+    background-color: white;
+    padding: 18px 22px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header h1{
+    color: #BABF94;
+    font-size: 24px;
+}
+
+.user-area{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-area span{
+    font-size: 12px;
+}
+
+.user-area a{
+    background: #BABF94;
+    color: white;
+    padding: 9px 13px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.user-area a:hover{
+    background-color: #aeb477;
+}
+
+.messages-section{
+    margin-top: 25px;
+}
+
+.messages-section h2{
+    margin-bottom: 17px;
+}
+
+.messages-box{
+    background: white;
+    min-height: 400px;
+    padding: 20px;
+    border-radius: 10px;
 }
