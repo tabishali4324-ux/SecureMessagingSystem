@@ -4,6 +4,30 @@
     box-sizing: border-box;
 }
 
+.navbar {
+    display: flex;
+    gap: 15px;
+    padding: 12px 20px;
+    background-color: #222;
+    flex-wrap: wrap;
+}
+
+.navbar a{
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+
+}
 body{
     font-family: Arial, sans-serif;
     background: #F3E4C9;

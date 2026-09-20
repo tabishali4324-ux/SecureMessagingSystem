@@ -1,16 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title> Inbox</title>
-        <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-
-    </head>
-
-    <body>
-    <div class="auth-container">
-        <div class="auth-box">
+{% extends "accounts/base.html" %}
+{% block title %}Inbox{% endblock %}
+{% block content %}
             <h1>
                 Inbox
             </h1>
@@ -19,8 +9,4 @@
             {% empty %}
             <p class="subtiitle">No messages yet</p>
             {% endfor %}
-            <p class="bottom-text"><a href="{% url 'user_list' %}"> Back to users</a></p>
-        </div>
-    </div>
-    </body>
-</html>
+{% endblock %}

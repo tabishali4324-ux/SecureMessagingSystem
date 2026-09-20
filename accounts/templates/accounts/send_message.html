@@ -1,14 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Send Message</title>
-    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-</head>
-<body>
-    <div class="auth-container">
-        <div class="auth-box">
+{% extends "accounts/base.html" %}
+{% block title %}Send Messages{% endblock %}
+{% block content %}
             <h1>Message {{ receiver.username }}</h1>
             {% if messages %}
                 {% for message in messages %}
@@ -26,7 +18,4 @@
             </form>
 
             <p class="bottom-text"><a href="{% url 'user_list' %}">Back to users</a></p>
-        </div>
-    </div>
-</body>
-</html>
+{% endblock %}

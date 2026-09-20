@@ -1,20 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Remove Users</title>
-    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-</head>
-<body>
-    <div class="auth-container">
-        <div class="auth-box">
+{% extends "accounts/base.html" %}
+{% block title %}Remove Users{% endblock %}
+{% block content %}
             <h1>Remove Users</h1>
 
-            {% if status %}
-            <p>{{status}}</p>
-            {% endif %}
 
             <form method="post">
                 {% csrf_token %}
@@ -29,9 +17,4 @@
                 </div>
                 <button type="submit">Remove User</button>
             </form>
-            <p class ="bottom-text"><a href="{% url 'home' %}">Back to Home</a></p>
-        </div>
-    </div>
-    
-</body>
-</html>
+{% endblock %}

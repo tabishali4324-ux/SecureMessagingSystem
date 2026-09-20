@@ -1,16 +1,6 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
-    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-</head>
-<body>
-    <div class="auth-container">
-        <div class="auth-box">
+{% extends "accounts/base.html" %}
+{% block title %}Create Account {% endblock %}
+{% block content %}
             {% if not submitted_username %}
                 <h1>Create Account</h1>
                 <p class="subtitle">Create your account to get started</p>
@@ -63,7 +53,4 @@
                     
                 </script>
             {% endif %}
-        </div>
-    </div>
-</body>
-</html>
+{% endblock %}

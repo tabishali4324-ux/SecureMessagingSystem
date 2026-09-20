@@ -18,8 +18,12 @@ def signup(request):
         password = request.POST.get('password')
         age= request.POST.get('age')
 
-        if username == "" or password == "":
+        if username == "" or password == "" or age == "":
             messages.error(request, "Please fill all the fields")
+            return render(request, 'accounts/signup.html')
+
+        if not age.isdigit() or int(age) <= 0 or int(age) > 120:
+            messages.error(request, "Age must be a valid number")
             return render(request, 'accounts/signup.html')
 
         user_exist = User.objects.filter(username=username).first()
@@ -79,6 +83,8 @@ def admin_verify(request):
             req.status = "DENIED"
             req.save()
             messages.info(request,f"{req.username} denied.")
+        else:
+            messages.error(request,"Invalid Action")
 
         return redirect("admin_verify")
 
@@ -97,7 +103,11 @@ def login(request):
         user= authenticate(request,username=username, password=password)
 
         if user is None:
-            messages.error(request, "Invalid username or password")
+            pending = RegistrationRequest.objects.filter(username=username, status="PENDING").first()
+            if pending:
+                messages.error(request,"Your accpunt is still waiting for approval ")
+            else:
+                messages.error(request, "Invalid username or password")
             return render (request, 'accounts/login.html')
 
         auth_login(request, user)
@@ -116,7 +126,7 @@ def user_list(request):
 
 @login_required
 def send_messages(request, username):
-    receiver = User.objects.filter(username=username).first()
+    receiver = User.objects.filter(username=username).exclude(profile__role='admin').exclude(is_superuser=True).first()
     if receiver is None:
         messages.error(request, "user not found")
         return redirect("user_list")
@@ -127,6 +137,8 @@ def send_messages(request, username):
             encrypted = crypto.encrypt_message(text, settings.MESSAGE_VAULT_PASSWORD)
             Message.objects.create(sender=request.user, receiver=receiver, encrypted_text=encrypted)
             messages.success(request, "Message sent.")
+        else:
+            messages.error(request, "Message cannot be empty")
         return redirect("send_message", username=username)
 
     return render(request,"accounts/send_message.html", {"receiver": receiver})
@@ -164,6 +176,8 @@ def admin_check_messages(request):
             sender__username=user2, receiver__username=user1
         )
         conversation = conversation.order_by("timestamp")
+    elif user1 and user2 and user1 == user2:
+        messages.error(request,"Please select two different users")
 
     return render(request, "accounts/admin_check_messages.html", {
         "users": users, "conversation": conversation, "user1": user1, "user2":user2,
@@ -179,6 +193,11 @@ def admin_decrypt_messages(request):
 
     user1 = request.GET.get("user1") or request.POST.get("user1")
     user2 = request.GET.get("user2") or request.POST.get("user2")
+
+    if not user1 or not user2:
+        messages.error(request, "Please select two users first.")
+        return redirect("admin_check_messages")
+
     decrypted = None
     error = None
 
@@ -210,9 +229,6 @@ def admin_decrypt_messages(request):
         "user1": user1, "user2": user2, "decrypted": decrypted, "error": error,
     })
 
-def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
-
 @login_required
 def admin_remove_users(request):
     if request.user.profile.role != "admin":
@@ -225,9 +241,10 @@ def admin_remove_users(request):
         username = request.POST.get('username')
         user_to_remove = User.objects.filter(username=username).exclude(profile__role="admin").exclude(is_superuser=True).first()
         if not user_to_remove:
-            status = "Select a valid user."
+            messages.error(request, "Select a valid user")
         else:
             user_to_remove.delete()
+            messages.success(request, "User removed successfully")
             status = "User removed suceessfully"
 
     users = User.objects.exclude(profile__role="admin").exclude(is_superuser=True).order_by("username")

@@ -1,14 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Admin - Decrypt Messages</title>
-        <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-    </head>
-    <body>
-        <div class="auth-container">
-            <div class="auth-box">
+{% extends "accounts/base.html" %}
+{% block title %}Decrypt Messages{% endblock %}
+{% block content %}
                 <h1>Decrypt Conervation </h1>
                 <p class="subtitle"> {{user1}} &amp; {{user2}}</p>
 
@@ -36,7 +28,4 @@
                     {% endif %}
 
                     <p class="botton-text"><a href="{% url 'admin_check_messages' %}"> Back</a></p>
-            </div>
-        </div>
-    </body>
-</html>
+{% endblock %}
