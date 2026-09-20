@@ -1,12 +1,36 @@
 {% extends "accounts/base.html" %}
 {% block title %}Inbox{% endblock %}
+{% load static %}
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'accounts/css/inbox.css' %}">
+
+<main class="inbox-page">
+    <div class="inbox-header">
+        <div>
+            <p class="eyebrow">MESSAGES</p>
             <h1>
                 Inbox
             </h1>
-            {% for m in inbox_messages %}
-            <p><strong>{{ m.sender }}</strong> ({{ m.timestamp }}): {{ m.text }}</p>
-            {% empty %}
-            <p class="subtiitle">No messages yet</p>
-            {% endfor %}
+            <p>Messages you've received</p>
+        </div>
+    </div>
+
+    <div class="inbox-list">
+        {% for m in inbox_messages %}
+            <div class="message-card">
+                <div class="message-top">
+                    <strong>{{ m.sender }}</strong>
+                    <span>{{ m.timestamp }}</span>
+                </div>
+                <p>{{ m.text }}</p>
+            </div>
+        {% empty %}
+            <div class="empty-box">
+                <span>◆</span>
+                <p>No messages yet</p>
+            </div>
+        {% endfor %}
+    </div>
+</main>
 {% endblock %}

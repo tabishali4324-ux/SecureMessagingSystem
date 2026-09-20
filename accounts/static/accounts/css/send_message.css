@@ -1,0 +1,83 @@
+.send-page{
+    max-width: 700px;
+    margin: auto;
+    padding: 65px 25px;
+}
+
+.send-header{
+    margin-bottom: 30px;
+}
+
+.send-header h1{
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 43px;
+}
+
+.send-header p:last-child{
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.send-form{
+    padding: 20px;
+    border: 1px solid var(--border);
+    background: var(--card);
+}
+.send-form label{
+    margin-bottom: 5px;
+}
+
+.send-form textarea{
+    width: 100%;
+    min-height: 150px;
+    padding: 15px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    background: #0d100e;
+    color: var(--text);
+    font-family: "DM Sans", sans-serif;
+    outline: none;
+}
+
+.send-form textarea:focus{
+    border-color: var(--accent);
+}
+
+.send-button{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    border: none;
+    background: var(--accent);
+    color: #0b0d0c;
+    font-weight: 700;
+    cursor: pointer;
+}
+.send-button:hover{
+    background: var(--accent-dark);
+}
+
+.send-alert{
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 13px;
+}
+
+.bottom-text{
+    margin-top: 20px;
+}
+.bottom-text a{
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.bottom-text a:hover{
+    color: var(--accent);
+}

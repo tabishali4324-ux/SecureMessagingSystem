@@ -1,21 +1,36 @@
 {% extends "accounts/base.html" %}
+{% load static %}
 {% block title %}Send Messages{% endblock %}
 {% block content %}
-            <h1>Message {{ receiver.username }}</h1>
-            {% if messages %}
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            {% endif %}
 
-            <form method="post">
-                {% csrf_token %}
-                <div class="input-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="4"></textarea>
-                </div>
-                <button type="submit">Send</button>
-            </form>
+<link rel="stylesheet" href="{% static 'accounts/css/send_message.css' %}">
 
-            <p class="bottom-text"><a href="{% url 'user_list' %}">Back to users</a></p>
+<main class="send-page">
+    <div class="send-header">
+        <p class="eyebrow">SECURE MESSAGE</p>
+        <h1>Message {{ receiver.username }}</h1>
+        <p>Send a private message to this user.</p>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <p class="send-alert">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="send-form">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+        </div>
+        <button type="submit" class="send-button">
+            <span>Send Message</span>
+            <span>→</span>
+        </button>
+    </form>
+
+    <p class="bottom-text">
+        <a href="{% url 'user_list' %}">← Back to users</a>
+    </p>
+</main>
 {% endblock %}

@@ -18,21 +18,51 @@
     --danger: #ff6b6b;
 }
 .navbar {
+    height: 64px;
     display: flex;
-    gap: 15px;
-    padding: 12px 20px;
-    background-color: #222;
-    flex-wrap: wrap;
+    align-items: center;
+    padding: 0px 35px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel)
 }
 
-.navbar a{
-    color: white;
+.nav-logo{
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 35px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
     text-decoration: none;
-    font-size: 14px;
 }
 
-.navbar a:hover {
-    text-decoration: underline;
+.nav-links{
+    display: flex;
+    gap: 25px;
+}
+.nav-links a, .nav-logout{
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    transition: 0.2s ease;
+}
+
+.nav-links a:hover, .nav-logout:hover{
+    color: var(--accent);
+}
+
+.nav-logout{
+    margin-left: auto;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+}
+
+.nav-logout:hover{
+    border-color: var(--accent);
 }
 
 .alert {

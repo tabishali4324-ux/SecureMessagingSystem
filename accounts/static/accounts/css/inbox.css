@@ -1,0 +1,60 @@
+.inbox-page{
+    max-width: 950px;
+    margin: auto;
+    padding: 60px 25px;
+}
+
+.inbox-header{
+    margin-bottom: 35px;
+}
+
+.inbox-header h1{
+    font-family:"Space Grotesk", sans-serif;
+    font-size: 45px;
+}
+
+.inbox-header p:last-child{
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.inbox-list{
+    display: grid;
+    gap: 12px;
+}
+
+.message-card{
+    padding: 20px;
+    border: 1px solid var(--border);
+    background: var(--card);
+}
+
+.message-top{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.message-top strong{
+    color: var(--accent);
+    font-size: 13px;
+}
+
+.message-top span{
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.message-card p{
+    color: #d5dad5;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.empty-inbox{
+    padding: 50px;
+    border: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+}
