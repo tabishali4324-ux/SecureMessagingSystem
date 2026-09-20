@@ -111,7 +111,7 @@ def home(request):
 
 @login_required
 def user_list(request):
-    users = User.objects.exclude(pk=request.user.pk).exclude(profile__role="admin")
+    users = User.objects.exclude(pk=request.user.pk).exclude(profile__role="admin").exclude(is_superuser=True)
     return render(request, "accounts/user_list.html", {"users":users})
 
 @login_required
@@ -129,7 +129,7 @@ def send_messages(request, username):
             messages.success(request, "Message sent.")
         return redirect("send_message", username=username)
 
-    return render(request,"accounts/send_messages.html", {"receiver": receiver})
+    return render(request,"accounts/send_message.html", {"receiver": receiver})
 
 @login_required
 def inbox(request):
@@ -150,7 +150,7 @@ def admin_check_messages(request):
         messages.error(request, "Access denied.")
         return redirect("login")
 
-    users = User.objects.exclude(profile__role="admin").order_by("username")
+    users = User.objects.exclude(profile__role="admin").exclude(is_superuser=True).order_by("username")
 
     conversation = None 
     user1 = request.GET.get("user1")
@@ -212,3 +212,23 @@ def admin_decrypt_messages(request):
 
 def dashboard(request):
     return render(request, 'accounts/dashboard.html')
+
+@login_required
+def admin_remove_users(request):
+    if request.user.profile.role != "admin":
+        messages.error(request, "Access denied.")
+        return redirect("login")
+
+    status = None
+
+    if request.method == "POST":
+        username = request.POST.get('username')
+        user_to_remove = User.objects.filter(username=username).exclude(profile__role="admin").exclude(is_superuser=True).first()
+        if not user_to_remove:
+            status = "Select a valid user."
+        else:
+            user_to_remove.delete()
+            status = "User removed suceessfully"
+
+    users = User.objects.exclude(profile__role="admin").exclude(is_superuser=True).order_by("username")
+    return render(request, "accounts/admin_remove_users.html", {"users": users, "status": status})

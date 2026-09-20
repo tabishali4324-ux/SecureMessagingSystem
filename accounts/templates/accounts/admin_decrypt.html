@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Admin - Decrypt Messages</title>
-        <link rel="stylesheet" href="{% static 'accounts/styke.css %}">
+        <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
     </head>
     <body>
         <div class="auth-container">
@@ -16,7 +16,7 @@
                 <p>{{ error }}</p>
                 {% endif %}
 
-                <form methid ="post">
+                <form method ="post">
                     {% csrf_token %}
                     <input type="hidden" name="user1" value="{{ user1 }}">
                     <input type="hidden " name="user2" value="{{ user2 }}">
@@ -29,7 +29,10 @@
                 {% if decrypted %}
                     <h2>Decrypted Messages</h2>
                     {% for m in decrypted %}
-                    <p><strong>{{ m.sender }}</strong> -> <strong> {{ m.receiver }}</strong>
+                    <p><strong>{{ m.sender }}</strong> -> <strong> {{ m.receiver }}</strong>: {{ m.text }} ({{m.timestamp}})</p>
+
+                    {% endfor %}
+
                     {% endif %}
 
                     <p class="botton-text"><a href="{% url 'admin_check_messages' %}"> Back</a></p>

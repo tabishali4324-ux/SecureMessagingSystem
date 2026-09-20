@@ -11,7 +11,7 @@
         <div class="auth-box">
             <h1>users</h1>
             {% for u in users %}
-            <p><a href="{% url 'send_message' u.username %}"></a></p>
+            <p><a href="{% url 'send_message' u.username %}">{{ u.username }}</a></p>
             {% empty %}
             <p class="subtitle">No other users yet</p>
             {% endfor %}

@@ -11,7 +11,7 @@
     <body>
         <div class="auth-contianer">
             <div class="auth-box">
-                <h1>Welcome, {{ request.user.username }}<h1>
+                <h1>Welcome, {{ request.user.username }}</h1>
                 <p class="subtittle">You are sucessfully logged in.</p>
 
                 <p class="bottom-text"><a href="{% url 'user_list' %}">Messsage Users</a></p>
@@ -19,6 +19,7 @@
                 {% if request.user.profile.role == "admin" %}
                     <p class="bottom-text"><a href="{% url 'admin_verify' %}">Verify Registratiions</a></p>
                     <p class="bottom-text"><a href="{% url 'admin_check_messages' %}">Check Messages</a></p>
+                    <p class="bottom-text"><a href="{% url 'admin_remove_users' %}"> Remove users </a> </p>
                 {% endif %}
 
                 <p class="bottom-text"><a href="{%url 'logout' %}">Logout</a></p>
