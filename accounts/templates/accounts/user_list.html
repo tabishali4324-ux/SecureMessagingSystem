@@ -2,6 +2,14 @@
 {% block title %}Users{% endblock %}
 {% block content %}
             <h1>users</h1>
+
+            <form method="get">
+                <div class="input-group">
+                    <input type="text" name="q" placeholder="Search username..." value="{{ query }}">
+
+                </div>
+                <button type="submit">Search</button>
+            </form>
             {% for u in users %}
             <p><a href="{% url 'send_message' u.username %}">{{ u.username }}</a></p>
             {% empty %}

@@ -15,4 +15,6 @@ urlpatterns = [
     path("manage/decrypt/", views.admin_decrypt_messages, name="admin_decrypt_messages"),
     path("manage/remove-users/", views.admin_remove_users, name="admin_remove_users"),
     path("logout/", views.logout_view, name="logout"),
+    path("profile/", views.profile_view, name="profile"),
+    path("change-password/", views.change_password, name="change_password")
 ]

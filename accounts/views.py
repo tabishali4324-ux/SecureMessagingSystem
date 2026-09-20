@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.contrib.auth import update_session_auth_hash
+
 
 
 # Create your views here.
@@ -121,8 +123,12 @@ def home(request):
 
 @login_required
 def user_list(request):
+    query = request.GET.get('q', '')
     users = User.objects.exclude(pk=request.user.pk).exclude(profile__role="admin").exclude(is_superuser=True)
-    return render(request, "accounts/user_list.html", {"users":users})
+
+    if query:
+        users= users.filter(username__icontains=query)
+    return render(request, "accounts/user_list.html", {"users":users, "query": query})
 
 @login_required
 def send_messages(request, username):
@@ -249,3 +255,40 @@ def admin_remove_users(request):
 
     users = User.objects.exclude(profile__role="admin").exclude(is_superuser=True).order_by("username")
     return render(request, "accounts/admin_remove_users.html", {"users": users, "status": status})
+
+@login_required
+def profile_view(request):
+    profile = request.user.profile
+
+    if request.method == "POST":
+        age = request.POST.get('age')
+
+        if not age.isdigit() or int(age) <= 0 or int(age) > 120:
+            messages.error(request, "Please enter a valid age")
+        else:
+            profile.age = age
+            profile.save()
+            messages.success(request,"Age updated successfully")
+        return redirect("profile")
+
+    return render(request, "accounts/profile.html", {"profile": profile})
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        if not request.user.check_password(old_password):
+            messages.error(request,"Old password is incorrect")
+            return redirect("change_password")
+
+        if new_password == "":
+            messages.error(request, "New passeord cannot be empty")
+            return redirect("change_password")
+        
+        request.user.set_password(new_password)
+        request.user.save()
+        update_session_auth_hash(request, request.user)
+        messages.success(request, "Password changed successfully")
+        return redirect("profile")
+    return render(request, "accounts/change_password.html")
