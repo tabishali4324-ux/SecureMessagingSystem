@@ -31,13 +31,8 @@
         <p class="alert">{{ message }}</p>
         {% endfor %}
     {% endif %}
-
-    <div class="auth-container">
-        <div class="auth-box">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
     
+    {% block content %} 
+    {% endblock %}
 </body>
 </html>

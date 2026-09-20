@@ -1,26 +1,86 @@
 {% extends "accounts/base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
-            <h1>Welcome Back</h1>
-            <p class="subtitle">Login to your account</p>
+
+<main class="auth-container">
+    <section class="auth-logo">
+        <div class="logo">S</div>
+        <p class="eyebrow">SECURE MESSAGING SYSTEM</p>
+        <h1>Conversation <br><span>stay private.</span></h1>
+        <p class="description">
+            A private space for secure communication.
+            Your messages are protected from the moment you send them.
+        </p>
+        <div class="security-note">
+            <span class="security-dot"></span>
+            <span>Protected communication channel</span>
+        </div>
+    </section>
+
+    <section class="auth-panel">
+        <div class="auth-box">
+            <div class="auth-heading">
+                <p class="eyebrow">WELCOME BACK</p>
+                <h2>Sign in</h2>
+                <p>Enter your credentials to continue</p>
+            </div>
+            {% if messages %}
+                <div class="form-messages">
+                    {% for message in messages %}
+                        <div class="message message-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
-
                 <div class="input-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username">
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
                 </div>
-        
+
                 <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <div class="input-label-row">
+                        <label for="password">Password</label>
+                        <span class="field-hint">PRIVATE</span>
+                    </div>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
                 </div>
-        
-                <button type="submit">Login</button>
+
+                <button type="submit" class="auth-button">
+                    <span>Sign in</span>
+                    <span class="button-arrow">→</span>
+                </button>
             </form>
 
-            <p class="bottom-text">
-                Don't have an account?
-                <a href="{% url 'signup' %}">Create account</a>
-            </p>
+            <div class="auth-footer">
+                <span>New here?</span>
+                <a href="{% url 'signup' %}">Create an account</a>
+            </div>
+
+        </div>
+
+        <div class="auth-status">
+            <span class="status-icon">◆</span>
+            <span>Secure connection</span>
+        </div>
+    </section>
+</main>
+
 {% endblock %}

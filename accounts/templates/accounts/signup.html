@@ -1,40 +1,120 @@
 {% extends "accounts/base.html" %}
-{% block title %}Create Account {% endblock %}
+{% load static %}
+{% block title %}Create Account{% endblock %}
 {% block content %}
+
+<main class="auth-container">
+    <section class="auth-logo">
+        <div class="logo">S</div>
+        <p class="eyebrow">SECURE MESSAGING SYSTEM</p>
+        <h1>Your space.<br><span>Your privacy.</span></h1>
+        <p class="description">
+            Create your account and join a private
+            communication space built around secure messaging.
+        </p>
+        <div class="security-note">
+            <span class="security-dot"></span>
+            <span>Registration requires approval</span>
+        </div>
+    </section>
+    <section class="auth-panel">
+        <div class="auth-box">
             {% if not submitted_username %}
-                <h1>Create Account</h1>
-                <p class="subtitle">Create your account to get started</p>
+                <div class="auth-heading">
+                    <p class="eyebrow">GET STARTED</p>
+                    <h1>Create Account</h1>
+                    <p>Your account will be reviewed by an administrator</p>
+                </div>
+
+                {% if messages %}
+                    <div class="form-messages">
+                        {% for message in messages %}
+                            <div class="message message-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 <form method="post">
                     {% csrf_token %}
 
                     <div class="input-group">
                         <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Enter your username">
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
                     </div>
-            
+
                     <div class="input-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password">
+                        <div class="input-label-row">
+                            <label for="password">Password</label>
+                            <span class="field-hint">PRIVATE</span>
+                        </div>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            required
+                        >
                     </div>
-            
+
                     <div class="input-group">
                         <label for="age">Age</label>
-                        <input type="number" id="age" name="age" placeholder="Enter your age">
+                        <input
+                            type="number"
+                            id="age"
+                            name="age"
+                            placeholder="Enter your age"
+                            min="1"
+                            max="120"
+                            required
+                        >
                     </div>
-            
-                    <button type="submit">Create Account</button>
+
+                    <button type="submit" class="auth-button">
+                        <span>Request account</span>
+                        <span class="button-arrow">→</span>
+                    </button>
                 </form>
 
-                <p class="bottom-text">
-                    Already have an account?
-                    <a href="{% url 'login'%}">Login</a>
-                </p>
-            {% else%}
-                <h1>Request Sent </h1>
-                <p id="status-text" class="subtitle">Waiting for admin approval</p>
+                <div class="auth-footer">
+                    <span>Already registered?</span>
+                    <a href="{% url 'login' %}">Sign in</a>
+                </div>
+
+            {% else %}
+
+                <div class="request-state">
+                    <div class="request-icon">
+                        <span>✓</span>
+                    </div>
+
+                    <p class="eyebrow">REQUEST RECEIVED</p>
+
+                    <h2>You're almost in.</h2>
+
+                    <p id="status-text">
+                        Your account is waiting for admin approval
+                    </p>
+                </div>
+
+                <div class="waiting-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
                 <script>
-                    const username = "{{ submitted_username}}";
+                    const username = "{{ submitted_username }}";
                     const statusEl = document.getElementById("status-text");
 
                     const poll = setInterval(async () => {
@@ -49,8 +129,18 @@
                             clearInterval(poll);
                         }
                     }, 2000);
-
-                    
                 </script>
+
             {% endif %}
+
+        </div>
+
+        <div class="auth-status">
+            <span class="status-icon">◆</span>
+            <span>Secure connection</span>
+        </div>
+
+    </section>
+</main>
+
 {% endblock %}

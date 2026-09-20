@@ -1,6 +1,72 @@
 {% extends "accounts/base.html" %}
+{% load static %}
+
 {% block title %}Home{% endblock %}
+
 {% block content %}
-    <h1>Welcome, {{ request.user.username }}</h1>
-    <p class="subtitle">You are successfully logged in.</p>
+
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/css/home.css' %}">
+
+<body class="home-page">
+
+    <main class="home-contianer">
+
+        <header class="home-header">
+            <div class="home-logo">
+                <div class="logo">S</div>
+                <div>
+                    <p>SECURE MESSAGING SYSTEM</p>
+                    <span>Private communication space</span>
+                </div>
+            </div>
+
+            <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </header>
+
+        <section class="home-content">
+            <div class="home-intro">
+                <p class="eyebrow">WELCOME BACK</p>
+
+                <h1>Welcome, {{ request.user.username }}</h1>
+
+                <p class="subtitle">You are successfully logged in.</p>
+            </div>
+        </section>
+
+        <div class="auth-box">
+
+            <h1>Welcome, {{ request.user.username }}</h1>
+
+            <p class="subtitle">You are successfully logged in.</p>
+
+            <p class="bottom-text">
+                <a href="{% url 'user_list' %}">Message Users</a>
+            </p>
+
+            <p class="bottom-text">
+                <a href="{% url 'inbox' %}">Inbox</a>
+            </p>
+
+            {% if request.user.profile.role == "admin" %}
+
+                <p class="bottom-text">
+                    <a href="{% url 'admin_verify' %}">Verify Registrations</a>
+                </p>
+
+                <p class="bottom-text">
+                    <a href="{% url 'admin_check_messages' %}">Check Messages</a>
+                </p>
+
+            {% endif %}
+
+            <p class="bottom-text">
+                <a href="{% url 'logout' %}">Logout</a>
+            </p>
+
+        </div>
+
+    </main>
+
+</body>
+
 {% endblock %}

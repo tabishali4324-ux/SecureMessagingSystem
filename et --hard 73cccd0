@@ -1,0 +1,47 @@
+[33m3479a09[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbackend[m[33m, [m[1;31mmyfork/backend[m[33m)[m merge latest owner changes
+[33m8df48f5[m[33m ([m[1;31mupstream/main[m[33m, [m[1;31mupstream/HEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m update readme
+[33m452dba2[m update readme.md
+[33me400022[m add send message, inbox, navbar UI
+[33mb3aacdc[m add home page styling
+[33m1a6ae6a[m solve conflicts after merge pr
+[33m54206a8[m Merge pull request #4 from tabishali4324-ux/backend
+[33m245fbfa[m Merge branch 'main' into backend
+[33m73cccd0[m Add new function profile and changepassword in view file and template folder in change password or profile html file create and code and search functionality in user list
+[33me46ce49[m Add new function profile and changepassword in view file and template folder in change password or profile html file create and code and search functionality in user list
+[33mff546c3[m Added shared navbar, fixed error messages across the app, and closed a security gap in messaging
+[33m2312be8[m Added shared navbar, fixed error messages across the app, and closed a security gap in messaging
+[33m99f4343[m login and signup UI done
+[33m84a7080[m change login/sigup structure and working on UI
+[33m4f6b128[m Added admin approval system for signups, user-to-user encrypted messaging, admin pages to check/decrypt messages and remove users, a setup.bat for one-click run, and fixed a bunch of html typos + a url clash with django admin
+[33mf548b9a[m Added admin approval system for signups, user-to-user encrypted messaging, admin pages to check/decrypt messages and remove users, a setup.bat for one-click run, and fixed a bunch of html typos + a url clash with django admin
+[33mbc98ea0[m Merge pull request #3 from tabishali4324-ux/backend
+[33m0c07163[m Merge pull request #3 from tabishali4324-ux/backend
+[33me0302a8[m All issue resolved in code and conflict
+[33mc071adc[m All issue resolved in code and conflict
+[33m529de7e[m add views file in logout function and template folder in new file admin_check admin_decrypt update home file
+[33m9e78dec[m add views file in logout function and template folder in new file admin_check admin_decrypt update home file
+[33m417e151[m views  fiel in add function admin check messages and admin decrpyt messages and url add in url file
+[33m1ab206e[m views  fiel in add function admin check messages and admin decrpyt messages and url add in url file
+[33m5bba161[m fix models indentation and add migration
+[33md10bd24[m fix models indentation and add migration
+[33md8f12d0[m Merge branch 'main' into pr-2
+[33m769285e[m Merge branch 'main' into pr-2
+[33m7cd51d3[m final backend changes
+[33ma0851bf[m final backend changes
+[33m94a34ee[m add dashboard
+[33mf518101[m add dashboard
+[33md16acc6[m fix resolve syntax errors and typos across models, views, urls, crypto, templates
+[33meac2f4f[m fix resolve syntax errors and typos across models, views, urls, crypto, templates
+[33mcf3f38e[m  RegistrationRequest model create and new urls create and registration_status, admin_verify add function in views.py file and new html file add and signup function chagning and all issue resolved
+[33m7bae8f3[m  RegistrationRequest model create and new urls create and registration_status, admin_verify add function in views.py file and new html file add and signup function chagning and all issue resolved
+[33m9203124[m Add signup, login and home views with Profile model and fix template/URL bugs
+[33mf86412c[m Add signup, login and home views with Profile model and fix template/URL bugs
+[33mbe18eba[m add login/signup styling
+[33m78d759e[m add login/signup styling
+[33m84ff8ad[m add simple signup and login structure
+[33m9c2f0e8[m add simple signup and login structure
+[33m4c12920[m Project setup
+[33m6291101[m Project setup
+[33me14f554[m Project setup
+[33m9e2d486[m Initial commit
+[33md0759dd[m Initial commit
