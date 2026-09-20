@@ -6,21 +6,20 @@
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/home.css' %}">
-
-<body class="home-page">
-
-    <main class="home-contianer">
-
+    <main class="home-page">
         <header class="home-header">
             <div class="home-logo">
                 <div class="logo">S</div>
                 <div>
-                    <p>SECURE MESSAGING SYSTEM</p>
-                    <span>Private communication space</span>
+                    <p class="home-title">SECURE MESSAGING SYSTEM</p>
+                    <span class="home-subtitle">Private communication space</span>
                 </div>
             </div>
 
-            <a href="{% url 'logout' %}" class="logout">Logout</a>
+            <div class="home-user">
+                <span>{{ request.user.username }}</span>
+                <a href="{% url 'logout' %}" class="logout">Logout</a>
+            </div>
         </header>
 
         <section class="home-content">
@@ -29,44 +28,56 @@
 
                 <h1>Welcome, {{ request.user.username }}</h1>
 
-                <p class="subtitle">You are successfully logged in.</p>
+                <p class="subtitle">Your private communication space is ready.</p>
             </div>
-        </section>
 
-        <div class="auth-box">
-
-            <h1>Welcome, {{ request.user.username }}</h1>
-
-            <p class="subtitle">You are successfully logged in.</p>
-
-            <p class="bottom-text">
-                <a href="{% url 'user_list' %}">Message Users</a>
-            </p>
-
-            <p class="bottom-text">
-                <a href="{% url 'inbox' %}">Inbox</a>
-            </p>
+            <div class="home-actions">
+                <a href="{% url 'user_list' %}" class="action-card">
+                    <span class="action-number">01</span>
+                    <div>
+                        <h2>Message Users</h2>
+                        <p>Find a user and start a secure conversation</p>
+                    </div>
+                    <span class="action-arrow">→</span>
+                </a>
+                <a href="{% url 'inbox' %}" class="action-card">
+                    <span class="action-number">02</span>
+                    <div>
+                        <h2>Inbox</h2>
+                        <p>View the messages you've received</p>
+                    </div>
+                    <span class="action-arrow">→</span>
+                </a>
+            </div>
 
             {% if request.user.profile.role == "admin" %}
-
-                <p class="bottom-text">
-                    <a href="{% url 'admin_verify' %}">Verify Registrations</a>
-                </p>
-
-                <p class="bottom-text">
-                    <a href="{% url 'admin_check_messages' %}">Check Messages</a>
-                </p>
-
+    
+                <div class="admin-section">
+                    <div class="section-label">
+                        <span>ADMIN</span> 
+                        <span>CONTROL CENTER</span>
+                    </div>
+                    <div class="admin-actions">
+                        <a href="{% url 'admin_verify' %}" class="admin-card">
+                            <span>Verify Registrations</span> 
+                            <span>→</span>
+                        </a>
+                        <a href="{% url 'admin_check_messages' %}" class="admin-card"> 
+                            <span>Check Messages</span> 
+                            <span>→</span> 
+                        </a>
+                        <a href="{% url 'admin_remove_users' %}" class="admin-card"> 
+                            <span>Remove Users</span> 
+                            <span>→</span> 
+                        </a>
+                    </div>
+                </div>
             {% endif %}
-
-            <p class="bottom-text">
-                <a href="{% url 'logout' %}">Logout</a>
-            </p>
-
-        </div>
-
+    
+            <div class="home-status"> 
+                <span class="status-dot"></span> 
+                <span>Secure connection active</span> 
+            </div>
+        </section>
     </main>
-
-</body>
-
 {% endblock %}

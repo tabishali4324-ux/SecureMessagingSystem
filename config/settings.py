@@ -128,3 +128,4 @@ MAILERS = {
 }
 
 MESSAGE_VAULT_PASSWORD = "MessageVault@2026"
+LOGIN_URL = '/login/'
