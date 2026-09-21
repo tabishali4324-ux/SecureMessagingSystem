@@ -1,101 +1,89 @@
 # Secure Messaging System
 
-This is a small Django project I made where people can sign up, but they don't get an account straight away — an admin has to approve them first. After that they can log in and send messages to each other, and the messages are stored encrypted (not plain text) in the database.
+A simple Django based messaging system where users can create accounts, send messages, and receive messages securely
 
-Made this while learning Django, so the code is pretty basic, nothing too fancy.
+## Features
+* User signup and login
+* Admin approval for new accounts
+* Send and receive messages
+* Messages are encrypted using AES-GCM
+* User profile and password change
+* Admin can verify or remove users
+* Admin can check and decrypt conversations
 
-## What it can do
+# Technologies
 
-- Signup form — but it doesn't create the account right away. It just saves a "pending" request.
-- After you submit the form, the page keeps checking every 2 seconds if admin approved you or not (using a bit of JavaScript + a small API endpoint). No need to refresh the page.
-- Normal login/logout using Django's own auth system.
-- Every user has a role — either `user` or `admin`. Admin gets extra options that normal users can't see.
-- Users can see other users and send them messages.
-- Messages get encrypted before saving (used AES, learned it from a tutorial, added it in `crypto.py`).
-- Users have an inbox where they can see messages sent to them (auto decrypted).
-- Admin has a page to see all pending signup requests and can Allow or Deny each one.
-- Admin can also pick 2 users and check their conversation (shown as encrypted text first, then admin can put in a password to actually read it).
-- Admin can remove any normal user's account.
+* Python
+* Django
+* SQlite
+* HTMl & CSS & litle bit JavaScript
+* Cryptography (AES-GCM)
 
-## Folder structure (basically)
+## Folder structure
 
-```
-SecureMessagingSystem/
-├── accounts/
-│   ├── models.py     -> Profile, RegistrationRequest, Message (the tables)
-│   ├── views.py       -> all the functions/logic
-│   ├── urls.py        -> all the links/paths
-│   ├── crypto.py      -> encrypt/decrypt stuff
-│   ├── management/commands/create_default_admin.py  -> makes a default admin
-│   └── templates/accounts/   -> all the html pages
-├── config/
-│   └── settings.py
-├── manage.py
+SecureMessagingSystem/ 
+├── accounts/ 
+│ ├── models.py 
+│ ├── views.py 
+│ ├── urls.py 
+│ ├── crypto.py 
+│ ├── management/ 
+│ │ └── commands/ 
+│ │ └── create_default_admin.py 
+│ └── templates/ 
+│ └── accounts/ 
+├── config/ 
+│ └── settings.py 
+├── manage.py 
+├── setup.bat 
 └── db.sqlite3
-```
 
-## How to run it
+## How to run
+Deployed Version:
+https://suhaibkhan.pythonanywhere.com/
 
-Easiest way — just double-click `setup.bat` in the project folder. It does everything below automatically (creates env, installs stuff, runs migrations, makes admin, starts server).
-
-If you want to do it manually instead:
-
-First make a virtual env and activate it:
-
-```bash
+Run Locally
+create a virtual environment:
 python -m venv venv
 venv\Scripts\activate
-```
 
-Then install stuff:
-
-```bash
+Install the required pakages:
 pip install django
 pip install cryptography
-```
 
 Then set up the database:
-
-```bash
+Run migrations:
 python manage.py makemigrations
 python manage.py migrate
-```
 
-Make a default admin account (already coded in a command):
-
-```bash
+Create the defalut admin:
 python manage.py create_default_admin
-```
 
-Then just run:
-
-```bash
+Strat the server:
 python manage.py runserver
-```
 
-Open your browser and go to `http://127.0.0.1:8000/`
+Then open:
+http://127.0.0.1:8000/
 
 ## Admin login
-
 I hardcoded a default admin in `create_default_admin.py`:
+
 - Username: `Humhai`
 - Password: `hojabhai333`
 
-## How it actually works (step by step)
+## AI Usage
+Claude AI was used only for UI inspiration for the login and signup. I used a screenshot of the Cloude generated design to take inspiration from its layout and color choice,
 
-1. New person goes to the site, fills username/password/age, hits submit.
-2. This doesn't make a real account. It just creates a `RegistrationRequest` with status `PENDING`.
-3. While waiting, the page keeps asking the server (every 2 sec) "hey has admin approved this yet?"
-4. Admin logs in, goes to the verify page, sees the pending list, clicks Allow or Deny.
-   - If Allow → a real account gets created for that person.
-   - If Deny → nothing gets created, request just gets marked denied.
-5. Person can now log in with the account (if approved).
-6. Any logged in user can go to "message users" and send someone a message — it gets encrypted before saving.
-7. Person can check their inbox to read messages sent to them.
-8. Admin also has extra pages to check any conversation or remove a user.
+The screenshot below shows the Claude ai design that was used only as a reference for the login and signup page layout and colors.
+![Claude UI Inspiration](screenshots/claude-ui.png)
 
-## Notes / things to know
+## Project Screenshot
+![signup](screenshots/Screenshot%202026-09-21%20171753.png)
+![login](screenshots/Screenshot%202026-09-21%20171703.png)
+![adminhome](screenshots/Screenshot%202026-09-21%20171906.png)
+![inbox](screenshots/Screenshot%202026-09-21%20171931.png)
 
-- This was made for learning purposes, not a real production app.
-- `DEBUG = True` is on in settings — should be turned off if this was ever going live for real.
-- Passwords for signup requests are hashed before saving, so they're not stored in plain text even while pending.
+
+## What Next
+* Complete the remaining UI
+* Improve the overall look and user experience
